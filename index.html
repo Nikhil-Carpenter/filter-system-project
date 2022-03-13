@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Filter_system</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+
+
+
+    <!-- Add modal starts -->
+
+    <div class="modal" id="add_modal" onclick="closeModal(event,'add_modal')">
+      <div class="modal_child">
+
+
+        <h1>Add Products</h1>
+        <i class="fa-solid fa-circle-xmark" id="close_btn" onclick="toggleModal(false,'add_modal')"></i>
+
+        <div class="form">
+
+        <input type="text" class="modal_inp" id="product_name" placeholder="Enter product name">
+        <input type="text" class="modal_inp" id="product_category" placeholder="Enter category name">
+        <input type="number" class="modal_inp" id="product_price" placeholder="Enter price">
+        <input type="text" class="modal_inp" id="seller_name" placeholder="Enter seller name">
+        <input type="text" class="modal_inp" id="company_name" placeholder="Enter company name">
+        <input type="text" class="modal_inp" id="img_url" placeholder="Enter image url">
+        
+
+      </div>
+      <button class="create_btn" id="create_btn" onclick="addProduct()">Create Product</button>
+
+      </div>
+
+    </div>
+
+
+    <!-- Update modal starts -->
+
+
+    <div class="modal" id="update_modal" onclick="closeModal(event,'update_modal')">
+      <div class="modal_child">
+
+
+        <h1>Update Products</h1>
+        <i class="fa-solid fa-circle-xmark" id="close_btn" onclick="toggleModal(false,'update_modal')"></i>
+
+        <div class="form">
+
+        <input type="text" class="modal_inp" id="product_name_up" placeholder="Enter product name">
+        <input type="text" class="modal_inp" id="product_category_up" placeholder="Enter category name">
+        <input type="number" class="modal_inp" id="product_price_up" placeholder="Enter price">
+        <input type="text" class="modal_inp" id="seller_name_up" placeholder="Enter seller name">
+        <input type="text" class="modal_inp" id="company_name_up" placeholder="Enter company name">
+        <input type="text" class="modal_inp" id="img_url_up" placeholder="Enter image url">
+        
+
+      </div>
+      <button class="create_btn" id="create_btn" onclick="updateProducts()">update Product</button>
+
+      </div>
+
+    </div>
+
+    <!-- view Modal -->
+
+    <div class="modal view_modal" id = "view_modal" onclick="closeModal(event,'view_modal')">
+      <div class="modal_child">
+
+        <i class="fa-solid fa-circle-xmark" id="close_btn" onclick="toggleModal(false,'view_modal')"></i>
+
+        <img id="pro_img" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQMAAADCCAMAAAB6zFdcAAAAdVBMVEXMzMwAAADQ0NDPz8/U1NR1dXWJiYkWFhYsLCy7u7s6OjrHx8dmZmbW1tbCwsKOjo6wsLCnp6cyMjJxcXFeXl6jo6MnJydBQUGAgICenp68vLxYWFiEhISXl5cdHR2ysrINDQ1LS0siIiJycnISEhI/Pz9HR0fnMFLNAAAFGElEQVR4nO3Ya7OiOBAGYDppEOQmiIjiBT2X//8Tt8MlAdepndmZWj7s+1SdKg7GmHQ6F/A8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA+N/QSin9WwX+zW/8fp1/jvLueRAc4kWDdHZ21+qcB/lOCv5avefMXceFVFHEtgqtsmsQzG6sinOiZ/kkqtjd1BmV07/qfiQyBXJ+W8EPqIL2Yw91vCeqtzXRxxhpnbVEYUjU/Iku/C7V0kfmaS8uLrMx4S0dxx7rHZV3U2BP+18IgkSR/LHG7EZXz1RxpXD48LzpDuZGYH9mRexTMbRCz0PQfLZfY+Ni2g7zlgM6/Xzq8uNYjjHgirLx6jzEkctumAV8oGbtIOiIrn9vg6Rxsd8O99WFonGlSB+fP91evlA2xSAmf/oe+0/zqwc6qOkGZW8r+O9wFb4Z2pj2aTLGgDft1AFd0G62cM6/+FqJTKBTGo4xyCifPldXiqXOtrbBnH24Ek2BaYFe7AlpW3s8xsAkim1j3PmuvZmf2mtuopd6NxWrKQbe0+XB3sRc6rEx4PKx7mSQkb3Lxn2+3zO2YVC5ZL+NwUlKTJ/IHLftlZGuXIbTYRFFriTlbQxMvg8fq4hk5dVnOrk6fVo3BtJdpRvZs4iOxbQPnM0mOMVAloPYFuekdnmgJAhDJkg3loul6gPn8sB73iJWWnFE39wvB5GLeEDrnpQ4CTOq88jLiofdyWqzAEwx4P3GpbzyN7MvqzET+IMOi6GUKF54lgdyPqioOkXXdvgNibzrtsRr3UWRq7JOtNn6tCzk/cSXQTUDb2OQ3Fz/FkkxZYLJgmU28/a776rLA5VeTa7RNe0/CMgVXiTFGrgluyKllWmZbIu7PhRvYxAsx0zdJQj7lyyQBZL606CLAe9CSk7RqaLOlF3GoJgtOGuQGNjdzmxnWk97+SwGs7nQdPHi+5IJ5WsWmMNF33e3Jl7Jj1nLepAl5jgic8EVl0X3vHIMOveP2bH4sR3bPa2JfudayMnzpblpQo90ecubjtRTDGR7zacyqS+ZPxwSRouArIGr+cmvTlKZ8CkbafIlF8ocaqLZ3rh9SXufgml3GOn2mPZVpGnpy4WWZfU5m06yLOo7FW5fWH1vbGYjEt8+UqLbZtDJVZcomSGuvTpMFu1lWQvS3fKBM6LPqQrq5O+qef4t/pYFKBtOZsONdrtuDGRBcj2UUysHk/xY58HFnHzcYX9xZvS8cUdQyyDEF1vH7SFV3DXf5jF4yLOY/nITiMlf+azskW1fn/VqIs8Laf+eh6tuKivDPv8qjzvCSxBsFRz6fRXclrMYmNVi9hwmy8G620J/vrkPw6B19z3rybQmejJ5m2HQ5KA7f4Gg7LnABOHNWNo18eCeTWXBMYkXUzvUqePPx9pp4HklFbL2yTE2nA71PRsDs91ftClx78LZzmief20K7d49/Nm9UVWUe2wyw/OHMMrhMDF3OCsXv7oOHT/o6Df+g8rFcU1OkLaHDdV7U2K7eOWoo9mzw8tj43Dzad+lNbRJmrxpqT9Ee/3E65JGbtyi9dPA06rYh+E2OSxf8uqTG1mOmq9nmBxeWqt/cG3vBfZhUmVBW9Zlktt3qCq7fNd1ddWrZ0FPzm/M/NqW+au19yX+0TyqfQ28eO3yegMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD+J/4C3Ec1tOBZK2cAAAAASUVORK5CYII=" alt="" srcset="">
+        <h2 id="pro_name">product</h2>
+      </div>
+    </div>
+
+    <!-- PopUP modal starts -->
+
+    <div class="modal " id = "delete_modal" onclick="closeModal(event,'delete_modal')">
+      <div class="modal_child">
+       <i class="fa-solid fa-circle-xmark" id="close_btn" onclick="toggleModal(false,'delete_modal')"></i>
+       
+        <h3>Are you sure you want to delete this product ?</h3>
+        
+        <div class="buttons">
+          <button class="filterbtn" onclick="confirmation(true)">yes</button>
+          <button class="filterbtn" onclick="confirmation(false)">no</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- filter header starts -->
+
+    <div class="filterHead">
+      <div class="filters">
+        <input
+          type="text"
+          onkeyup="getValue(event,'name')"
+          class="inputBox"
+          id="inputBox"
+          placeholder="Search products"
+        />
+
+        <select onchange="getValue(event,'category')" class="inputBox">
+          <option value="">Select Category</option>
+          <option value="electronics">Electronics</option>
+          <option value="wearables">Wearables</option>
+          <option value="general">General</option>
+        </select>
+
+        <select onchange="getValue(event,'priceRange')" class="inputBox">
+          <option value="">Select price-range</option>
+          <option value="1-1000">1-1000</option>
+          <option value="1000-10000">1000-10000</option>
+          <option value="10000-50000">10000-50000</option>
+          <option value="50000-100000">50000-100000</option>
+        </select>
+
+        <select onchange="getValue(event,'company')" class="inputBox">
+          <option value="">select company</option>
+          <option value="apple">Apple</option>
+          <option value="bajaj">Bajaj</option>
+          <option value="mi">MI</option>
+          <option value="asus">Asus</option>
+        </select>
+      </div>
+
+      <button class="filterbtn" onclick="filter()" id="filterBtn">Filter</button>
+    </div>
+
+    <div class="filterBody">
+      <button class="add_btn" id="add_btn" onclick="toggleModal(true,'add_modal')">Add New Product</button>
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Product Name</th>
+            <th>Category</th>
+            <th>Price</th>
+            <th>Image</th>
+            <th>Seller</th>
+            <th>Company</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="data">
+          <!-- <tr>
+            <td>1</td>
+            <td>Iphone</td>
+            <td>Electroincs</td>
+            <td>78,000</td>
+            <td>NK inc.</td>
+            <td>Apple</td>
+          </tr> -->
+        </tbody>
+      </table>
+    </div>
+
+    <script src="./script.js"></script>
+  </body>
+</html>
