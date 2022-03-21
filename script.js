@@ -10,6 +10,50 @@ else
 {
     localStorage.setItem("PRODUCTS",JSON.stringify(PRODUCTS));
 }
+let filteredProducts = PRODUCTS;
+
+
+let totalPages = null;
+let currentPage = null;
+let start = null;
+let end = null;
+let paginate = [];
+
+
+function createPageLinks(){
+
+  
+  for(let i = 1;i<=totalPages;i++){
+    let link = document.createElement("a");
+    link.classList.add("pageLink");
+    link.append(i);
+    link.onclick = function(){
+      openPage(i);
+    }
+    document.getElementById("pageLinks").appendChild(link);
+  }
+}
+
+function setUpPagination()
+{
+
+  totalPages = Math.ceil(filteredProducts.length/10);
+    document.getElementById("totalPages").innerText = totalPages;
+
+  currentPage = 1;
+  document.getElementById("currentPage").innerText=currentPage;
+
+  
+
+  start = (currentPage-1)*10;
+  end = currentPage*10;
+
+  paginate = filteredProducts.slice(start,end);
+
+}
+
+
+
 
 // array used 
 // [
@@ -57,17 +101,22 @@ else
 //   },
 // ];
 
-let tbody;
+
 
 function display(arr) {
   document.getElementById("data").innerText = "";
 
+  let numbering = start+1
   arr.forEach(function (product, index) {
     let tr = document.createElement("tr");
 
     let numTD = document.createElement("td");
-    numTD.append(index + 1);
+    numTD.append(numbering);
+
     tr.appendChild(numTD);
+    numbering++;
+
+   
 
     let nameTD = document.createElement("td");
     nameTD.append(product.productName);
@@ -134,7 +183,60 @@ function display(arr) {
   });
 }
 
-display(PRODUCTS);
+
+setUpPagination();
+createPageLinks();
+
+display(paginate);
+document.getElementById("message").style.display = "none";
+
+
+
+function next()
+{
+  if (currentPage<totalPages) {
+    
+    currentPage++;
+    
+
+   openPage(currentPage);
+  }
+
+}
+
+function prev()
+{
+
+  if (currentPage>1) {
+    
+    currentPage--;
+    openPage(currentPage);
+  }
+
+}
+
+function openPage(pageNo){
+
+
+    currentPage = pageNo;
+
+      if (currentPage!=="" && currentPage!==null && currentPage >= 1 && currentPage<= totalPages) 
+      {
+
+            document.getElementById("currentPage").innerText=currentPage;
+            start = (currentPage-1)*10;
+            end = currentPage*10;
+            paginate = filteredProducts.slice(start,end);
+         
+
+        display(paginate);
+
+      }
+
+}
+
+
+
 
 //for multiple filter
 
@@ -152,7 +254,7 @@ function getValue(event, property) {
     filters[property] = null;
   }
 
-  // console.log(filters);
+  console.log(filters);
 }
 
 // for only one filter we did this
@@ -165,17 +267,18 @@ function getValue(event, property) {
 
 
 function filter() {
-  let filteredProducts = PRODUCTS;
+  filteredProducts = PRODUCTS;
+  console.log(filteredProducts)
 
   if (filters.name !== null) {
     filteredProducts = filteredProducts.filter(function (product, index) {
-      return filters.name.toLowerCase() === product.name.toLowerCase();
+      return filters.name.toUpperCase() === product.productName.toUpperCase();
     });
   }
 
   if (filters.category !== null) {
     filteredProducts = filteredProducts.filter(function (product, index) {
-      return filters.category.toLowerCase() === product.category.toLowerCase();
+      return filters.category.toUpperCase() === product.category.toUpperCase();
     });
   }
 
@@ -183,9 +286,7 @@ function filter() {
     let price = filters.priceRange.split("-");
 
     filteredProducts = filteredProducts.filter(function (product, index) {
-      return (
-        product.price >= Number(price[0]) && product.price <= Number(price[1])
-      );
+      return ( product.price >= Number(price[0]) && product.price <= Number(price[1]) );
     });
   }
 
@@ -195,9 +296,28 @@ function filter() {
     });
   }
 
-  display(filteredProducts);
-  console.log(filteredProducts);
+  if (filteredProducts.length!==0) 
+{
+  
+    document.getElementById("message").style.display = "none";
+
+    setUpPagination();
+    document.getElementById("pageLinks").innerText="";
+
+    createPageLinks();
+    display(paginate);
+
+}else{
+    document.getElementById("data").innerHTML = "";
+    document.getElementById("message").style.display = "flex";
 }
+
+ 
+
+  // display(filteredProducts);
+  // console.log(filteredProducts);
+}
+
 
 
 // function for toggle the modal
@@ -242,9 +362,12 @@ function addProduct(){
 
   PRODUCTS.push(product);
 
-  display(PRODUCTS);
+  // filter();
+
+  display(paginate);
+  alert("New product Added")
   // console.log(product);
-  toggleModal(false);
+  toggleModal(false,'add_modal');
 
   //saving data in local storage (the whole PRODUCTS array)
   localStorage.setItem("PRODUCTS",JSON.stringify(PRODUCTS));
@@ -269,16 +392,30 @@ function confirmation(status)
   if (status === true) 
   {
     
-    let productIndex = PRODUCTS.findIndex(function(product,index){
+    let productIndex = filteredProducts.findIndex(function(product,index){
         return product.id === deleteId;
     })
+
+    filteredProducts.splice(productIndex,1);
+
+    let mainProductIndex = PRODUCTS.findIndex(function(product,index){
+        return product.id === deleteId;
+    })
+
+    PRODUCTS.splice(mainProductIndex,1);
+
+
+    start = (currentPage-1)*10;
+    end = currentPage*10;
   
-    console.log(productIndex);
+    paginate = filteredProducts.slice(start,end);
   
-    PRODUCTS.splice(productIndex,1);
+
+
     localStorage.setItem("PRODUCTS",JSON.stringify(PRODUCTS));
 
-    display(PRODUCTS);
+    filter();
+    display(paginate);
 
   }
 
@@ -300,6 +437,10 @@ function viewProducts(id){
 
   document.getElementById("pro_img").src = product.image;
   document.getElementById("pro_name").innerText = product.productName;
+  document.getElementById("pro_price").innerText = `Prices : ${product.price}`;
+  document.getElementById("pro_company").innerText = `Company : ${product.company}`;
+  document.getElementById("pro_category").innerText = `Category : ${product.category}`;
+  document.getElementById("pro_seller").innerText = `Seller : ${product.seller}`;
 
   toggleModal(true,'view_modal');
 
@@ -338,11 +479,13 @@ function updateProducts(){
   productToUpdate.seller = document.getElementById("seller_name_up").value;
   productToUpdate.company = document.getElementById("company_name_up").value;
   productToUpdate.image = document.getElementById("img_url_up").value;
+  
+    // filter();
+    
+    display(paginate);
 
-    display(PRODUCTS);
-
-    localStorage.setItem("PRODUCTS",JSON.stringify(PRODUCTS));
-
+    
     toggleModal(false,'update_modal');
+    localStorage.setItem("PRODUCTS",JSON.stringify(PRODUCTS));
 
 }

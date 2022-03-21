@@ -108,9 +108,56 @@ th {
   align-items: center;
   display: none;
 }
+
+
+
+/* View modal related css here */
+
+
 .view_modal{
   display: none;
 }
+
+
+
+.productCOntainer{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.productCOntainer .imgBox{
+width: 45%;
+/* background-color: yellow; */
+}
+.productCOntainer .imgBox img{
+  width: 100%;
+}
+
+.productCOntainer .productDetails{
+  width: 45%;
+  /* background-color: yellowgreen; */
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  row-gap: 8px;
+}
+.productDetails h2{
+  font-weight: 600;
+}
+.productDetails p:nth-of-type(1){
+  font-size: .8rem;
+  font-weight: bold;
+}
+.productDetails p{
+  font-size: .8rem;
+  
+}
+
+
+/* View modal related css ends here */
+
+
 .modal_child{
   padding: 30px;
   border-radius: 8px;
@@ -164,4 +211,49 @@ th {
   text-transform: capitalize;
   font-size: .9rem;
   align-self: flex-end;
+}
+
+/* CSS for pagination */
+
+.pagination{
+  width: 100%;
+  height: 50px;
+  /* background-color: red; */
+  display: flex;
+  justify-content: space-between;
+}
+.pagination_controls{
+  width: 50%;
+  height: 100%;
+  margin-left: 20px;
+  display: flex;
+  column-gap: 10px;
+  align-items: center;
+  /* background-color: yellowgreen; */
+}
+
+.pagination_details{
+  width: 20%;
+  /* background-color: yellow; */
+  height: 50px;
+  display: flex;
+  align-items: center;
+  margin-right: 20px;
+  justify-content: flex-end;
+  font-weight: bold;
+}
+
+
+.pageLinks{
+  font-size: 1.1rem;
+  
+}
+.pageLinks a{
+  padding: 5px;
+  margin-left: 8px;
+  transition: .3s ease-in-out;
+}
+.pageLinks a:hover {
+  cursor: pointer;
+  background-color: lightgray;
 }
