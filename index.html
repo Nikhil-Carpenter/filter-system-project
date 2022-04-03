@@ -139,54 +139,63 @@
         </select>
       </div>
 
-      <button class="filterbtn" onclick="filter()" id="filterBtn">Filter</button>
+      <div class="btnhead">
+        <button class="filterbtn" onclick="filter()" id="filterBtn">Filter</button>
+        <button class="add_btn" id="add_btn" onclick="toggleModal(true,'add_modal')">Add New Product</button>
+      </div>
+      
     </div>
 
     <div class="filterBody">
-      <button class="add_btn" id="add_btn" onclick="toggleModal(true,'add_modal')">Add New Product</button>
-      <table>
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Product Name</th>
-            <th>Category</th>
-            <th>Price</th>
-            <th>Image</th>
-            <th>Seller</th>
-            <th>Company</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody id="data">
-          <!-- <tr>
-            <td>1</td>
-            <td>Iphone</td>
-            <td>Electroincs</td>
-            <td>78,000</td>
-            <td>NK inc.</td>
-            <td>Apple</td>
-          </tr> -->
-        </tbody>
-      </table>
-
-
-      <div class="message" id="message">
-       <p> No DATA found</p> 
+      
+      <div class="tableBody">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Product Name</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Image</th>
+                <th>Seller</th>
+                <th>Company</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="data">
+              <!-- <tr>
+                <td>1</td>
+                <td>Iphone</td>
+                <td>Electroincs</td>
+                <td>78,000</td>
+                <td>NK inc.</td>
+                <td>Apple</td>
+              </tr> -->
+            </tbody>
+          </table>
+        
       </div>
+
+<div class="controls">
   
-      <div class="pagination">
-          <div class="pagination_controls">
-              <button class="filterbtn" onclick="prev()">prev</button>
-              <div class="pageLinks" id="pageLinks">
-
-              </div>
-              <button class="filterbtn" onclick="next()">next</button>
-              <input type="text" onkeyup="openPage(Number(event.target.value))" placeholder="Jump to page no." class="inputBox">
-          </div>
-          <div class="pagination_details">
-            <p>page <span id="currentPage">1</span> of <span id="totalPages"></span></p>
-          </div>
-      </div>
+        <div class="message" id="message">
+         <p> No DATA found</p>
+        </div>
+  
+        <div class="pagination">
+            <div class="pagination_controls">
+                <button class="filterbtn" onclick="prev()">prev</button>
+                <div class="pageLinks" id="pageLinks">
+  
+                </div>
+                <button class="filterbtn" onclick="next()">next</button>
+                <input type="text" onkeyup="openPage(Number(event.target.value))" placeholder="Jump to page no." class="inputBox">
+            </div>
+            <div class="pagination_details">
+              <p>page <span id="currentPage">1</span> of <span id="totalPages"></span></p>
+            </div>
+        </div>
+</div>
 
       
     </div>

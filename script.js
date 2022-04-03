@@ -37,7 +37,7 @@ function createPageLinks(){
 function setUpPagination()
 {
 
-  totalPages = Math.ceil(filteredProducts.length/10);
+  totalPages = Math.ceil(filteredProducts.length/5);
     document.getElementById("totalPages").innerText = totalPages;
 
   currentPage = 1;
@@ -45,8 +45,8 @@ function setUpPagination()
 
   
 
-  start = (currentPage-1)*10;
-  end = currentPage*10;
+  start = (currentPage-1)*5;
+  end = currentPage*5;
 
   paginate = filteredProducts.slice(start,end);
 
@@ -224,8 +224,8 @@ function openPage(pageNo){
       {
 
             document.getElementById("currentPage").innerText=currentPage;
-            start = (currentPage-1)*10;
-            end = currentPage*10;
+            start = (currentPage-1)*5;
+            end = currentPage*5;
             paginate = filteredProducts.slice(start,end);
          
 
@@ -360,6 +360,7 @@ function addProduct(){
   product.company = document.getElementById("company_name").value;
   product.image = document.getElementById("img_url").value;
 
+  console.log(product);
   PRODUCTS.push(product);
 
   // filter();
@@ -405,8 +406,8 @@ function confirmation(status)
     PRODUCTS.splice(mainProductIndex,1);
 
 
-    start = (currentPage-1)*10;
-    end = currentPage*10;
+    start = (currentPage-1)*5;
+    end = currentPage*5;
   
     paginate = filteredProducts.slice(start,end);
   
